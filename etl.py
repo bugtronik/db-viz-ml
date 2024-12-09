@@ -18,7 +18,7 @@ mysql_password = 'galera'
 mysql_db = 'setrag_beta1'
 
 # Charger l'image
-image_path = 'setraglogo.jpg'
+image_path = 'notebooks/setraglogo.jpg'
 img = mpimg.imread(image_path)
 
 # Establish the SSH tunnel
@@ -70,15 +70,24 @@ with SSHTunnelForwarder(
         #print(df)
 
         df_styled = df.style.set_table_styles(
-            [{'selector': 'N° TRAIN',
-              'props': [('background-color', 'yellow')]}]
+            [{'selector': 'th', 'props': [('background-color', '#FF0000'), ('color', 'white'), ('font-weight', 'bold')]}]
         )
-        df_styled
+        
+
         # Plot the DataFrame as a table
-        fig, ax = plt.subplots(figsize=(10, 6))
+        fig, ax = plt.subplots(figsize=(14, 7))
         ax.axis('tight')
         ax.axis('off')
+
+        ax.set_title("PROGRAMME DES TRAINS", y=1.08)
+
         table = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center')
+
+        # Ajouter un nouvel axe pour le logo
+        logo_ax = fig.add_axes([0.1, 0.92, 0.09, 0.085], anchor='NE', zorder=-1)
+        logo_ax.imshow(img)
+        logo_ax.axis('off')  # Masquer les axes du logo
+        
         # Save the table as a JPEG image
         plt.savefig('data_table.jpg', format='jpeg')
 
